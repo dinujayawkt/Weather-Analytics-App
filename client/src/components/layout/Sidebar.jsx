@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
   RiDashboardLine, RiBarChartLine, RiTrophyLine, RiSettings3Line,
-  RiLogoutBoxLine,
+  RiLogoutBoxLine, RiCloudLine,
 } from 'react-icons/ri'
 
 const navItems = [
@@ -125,16 +125,22 @@ export default function Sidebar({ mobileOpen, onClose }) {
         className={mobileOpen !== undefined ? 'md:relative md:transform-none' : ''}
       >
         {/* Logo */}
-        <div style={{ marginBottom: 16, padding: '4px 0 12px' }}>
+        <NavLink
+          to="/"
+          end
+          title="Climatrix Home"
+          onClick={onClose}
+          style={{ marginBottom: 16, padding: '4px 0 12px', textDecoration: 'none' }}
+        >
           <div style={{
             width: 38, height: 38, borderRadius: 12,
             background: 'linear-gradient(135deg, var(--accent-blue), var(--accent-cyan))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 4px 15px rgba(29,111,242,0.4)',
           }}>
-            <RiDashboardLine size={20} color="white" />
+            <RiCloudLine size={20} color="white" />
           </div>
-        </div>
+        </NavLink>
 
         {/* Nav items */}
         <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4, width: '100%', alignItems: 'center' }}>
