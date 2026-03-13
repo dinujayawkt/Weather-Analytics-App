@@ -3,7 +3,7 @@ import { RiSunLine } from 'react-icons/ri'
 
 function UVGauge({ value, max = 12 }) {
   const pct = Math.min(value / max, 1)
-  const cx = 60, cy = 60, r = 48
+  const cx = 100, cy = 88, r = 72
   const startAngle = Math.PI
   const sweepAngle = Math.PI
   const endAngle = startAngle + sweepAngle * pct
@@ -23,21 +23,21 @@ function UVGauge({ value, max = 12 }) {
     : '#F87171'
 
   return (
-    <svg width={120} height={70} viewBox="0 0 120 70">
+    <svg width="100%" viewBox="0 0 200 95" style={{ maxWidth: 240 }}>
       {/* Track */}
       <path
         d={`M ${toXY(Math.PI).x} ${toXY(Math.PI).y} A ${r} ${r} 0 0 1 ${toXY(2 * Math.PI).x} ${toXY(2 * Math.PI).y}`}
-        fill="none" stroke="var(--border-color)" strokeWidth={8} strokeLinecap="round"
+        fill="none" stroke="var(--border-color)" strokeWidth={10} strokeLinecap="round"
       />
       {/* Fill */}
       {value > 0 && (
         <path
           d={`M ${start.x} ${start.y} A ${r} ${r} 0 ${pct > 0.5 ? 1 : 0} 1 ${end.x} ${end.y}`}
-          fill="none" stroke={uvColor} strokeWidth={8} strokeLinecap="round"
+          fill="none" stroke={uvColor} strokeWidth={10} strokeLinecap="round"
         />
       )}
       {/* Value text */}
-      <text x="60" y="58" textAnchor="middle" fill="var(--text-primary)" fontSize="18" fontWeight="700">
+      <text x="100" y="82" textAnchor="middle" fill="var(--text-primary)" fontSize="26" fontWeight="700">
         {value}
       </text>
     </svg>

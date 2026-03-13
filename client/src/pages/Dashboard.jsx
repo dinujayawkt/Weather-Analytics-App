@@ -155,17 +155,22 @@ export default function Dashboard() {
               Cities — Comfort Ranking
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {rankings.map((r, i) => (
-                <CityOverviewCard
-                  key={r.city}
-                  rank={i + 1}
-                  city={r.city}
-                  weather={r.weather}
-                  temperature={r.temperature}
-                  score={r.score}
-                  isTop={i === 0}
-                />
-              ))}
+              {rankings.map((r, i) => {
+                const match = CITIES.find(c => c.name.toLowerCase() === r.city.toLowerCase())
+                return (
+                  <CityOverviewCard
+                    key={r.city}
+                    rank={i + 1}
+                    city={r.city}
+                    weather={r.weather}
+                    temperature={r.temperature}
+                    score={r.score}
+                    isTop={i === 0}
+                    isSelected={match?.id === selectedCityId}
+                    onSelect={match ? () => setSelectedCityId(match.id) : undefined}
+                  />
+                )
+              })}
             </div>
           </div>
 

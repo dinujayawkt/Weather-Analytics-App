@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useTheme } from '../../hooks/useTheme'
 import {
   RiDashboardLine, RiBarChartLine, RiTrophyLine, RiSettings3Line,
-  RiSunLine, RiMoonLine,
+  RiSunLine, RiMoonLine, RiLogoutBoxLine,
 } from 'react-icons/ri'
 
 const navItems = [
@@ -15,8 +15,11 @@ const navItems = [
 ]
 
 export default function Sidebar({ mobileOpen, onClose }) {
-  const { user } = useAuth0()
+  const { user, logout } = useAuth0()
   const { isDark, toggleTheme } = useTheme()
+
+  const handleLogout = () =>
+    logout({ logoutParams: { returnTo: window.location.origin + '/login' } })
 
   const sidebarStyle = {
     width: 68,
@@ -140,7 +143,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
               style={{
                 width: 38, height: 38, borderRadius: '50%',
                 border: '2px solid var(--border-color)', objectFit: 'cover',
-                cursor: 'pointer',
+                cursor: 'default',
               }}
             />
           ) : (
@@ -150,12 +153,36 @@ export default function Sidebar({ mobileOpen, onClose }) {
                 width: 38, height: 38, borderRadius: '50%',
                 background: 'linear-gradient(135deg, var(--accent-coral), var(--accent-yellow))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14, fontWeight: 700, color: 'white', cursor: 'pointer',
+                fontSize: 14, fontWeight: 700, color: 'white', cursor: 'default',
               }}
             >
               {user?.name?.[0]?.toUpperCase() || '?'}
             </div>
           )}
+
+          {/* Logout button */}
+          <button
+            onClick={handleLogout}
+            title="Sign Out"
+            style={{
+              width: 44, height: 44, borderRadius: 12,
+              background: 'rgba(239,68,68,0.08)',
+              border: '1px solid rgba(239,68,68,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', transition: 'all 0.2s ease',
+              color: '#EF4444',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(239,68,68,0.18)'
+              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.4)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(239,68,68,0.08)'
+              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.2)'
+            }}
+          >
+            <RiLogoutBoxLine size={20} />
+          </button>
         </div>
       </aside>
     </>
