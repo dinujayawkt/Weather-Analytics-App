@@ -1,5 +1,6 @@
 import { estimateUVIndex } from '../../utils/weatherHelpers'
 import { RiSunLine } from 'react-icons/ri'
+import InfoTooltip from '../ui/InfoTooltip'
 
 function UVGauge({ value, max = 12 }) {
   const pct = Math.min(value / max, 1)
@@ -57,14 +58,16 @@ export default function UVIndexCard({ cloudiness }) {
     <div className="glass-card" style={{ padding: 20, height: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>UV Index</p>
-        <div style={{
-          width: 34, height: 34, borderRadius: 10,
-          background: 'rgba(255,200,45,0.1)', border: '1px solid rgba(255,200,45,0.2)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'var(--accent-yellow)',
-        }}>
-          <RiSunLine size={16} />
-        </div>
+        <InfoTooltip text="UV Index estimates sun radiation intensity (0 to 12+). Higher UV means stronger sun exposure and higher skin-risk during daytime.">
+          <div style={{
+            width: 34, height: 34, borderRadius: 10,
+            background: 'rgba(255,200,45,0.1)', border: '1px solid rgba(255,200,45,0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--accent-yellow)',
+          }}>
+            <RiSunLine size={16} />
+          </div>
+        </InfoTooltip>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>

@@ -18,20 +18,24 @@
   --sidebar-active: rgba(29, 111, 242, 0.15);
   --scrollbar-thumb: #252A35;
   --card-glass: rgba(26, 29, 36, 0.7);
+  --menu-hover-bg: rgba(255, 255, 255, 0.12);
+  --menu-hover-border: rgba(255, 255, 255, 0.24);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] {
-  --bg-primary: #F0F4FA;
-  --bg-secondary: #E8EDF5;
+  --bg-primary: #F3F4F6;
+  --bg-secondary: #ECEEF2;
   --bg-card: #FFFFFF;
   --bg-card-hover: #F8FAFC;
   --text-primary: #0F1117;
   --text-secondary: #4A5568;
   --text-muted: #9CA3AF;
   --border-color: #E2E8F0;
-  --sidebar-bg: #1A1D24;
+  --sidebar-bg: #F8FAFC;
   --card-glass: rgba(255, 255, 255, 0.85);
+  --menu-hover-bg: rgba(29, 111, 242, 0.08);
+  --menu-hover-border: rgba(29, 111, 242, 0.18);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
   --scrollbar-thumb: #CBD5E0;
 }

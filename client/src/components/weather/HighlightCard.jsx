@@ -1,19 +1,23 @@
+import InfoTooltip from '../ui/InfoTooltip'
+
 // Generic mini highlight card (Humidity, Visibility, Feels Like, Pressure)
-export default function HighlightCard({ label, value, unit, note, icon: Icon, color = 'var(--accent-cyan)', progress }) {
+export default function HighlightCard({ label, value, unit, note, icon: Icon, color = 'var(--accent-cyan)', progress, description }) {
   return (
     <div className="glass-card" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>{label}</p>
         {Icon && (
-          <div style={{
-            width: 32, height: 32, borderRadius: 9,
-            background: `${color}18`,
-            border: `1px solid ${color}30`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color,
-          }}>
-            <Icon size={15} />
-          </div>
+          <InfoTooltip text={description || `${label} details`}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 9,
+              background: `${color}18`,
+              border: `1px solid ${color}30`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color,
+            }}>
+              <Icon size={15} />
+            </div>
+          </InfoTooltip>
         )}
       </div>
 

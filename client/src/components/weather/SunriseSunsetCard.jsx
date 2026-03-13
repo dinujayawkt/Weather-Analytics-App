@@ -1,5 +1,6 @@
 import { formatTime } from '../../utils/weatherHelpers'
 import { RiSunLine, RiMoonLine } from 'react-icons/ri'
+import InfoTooltip from '../ui/InfoTooltip'
 
 export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
   const sr = sunrise || 0
@@ -29,7 +30,10 @@ export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
 
   return (
     <div className="glass-card" style={{ padding: 20, height: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>Sunrise &amp; Sunset</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>Sunrise &amp; Sunset</p>
+        <InfoTooltip text="This arc shows daytime progress between sunrise and sunset. It helps you see how far the day has advanced in your selected city." />
+      </div>
 
       {/* SVG arc */}
       <div style={{ display: 'flex', justifyContent: 'center', overflow: 'visible' }}>

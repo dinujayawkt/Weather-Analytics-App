@@ -1,6 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { generateWindData } from '../../utils/weatherHelpers'
 import { RiWindyLine } from 'react-icons/ri'
+import InfoTooltip from '../ui/InfoTooltip'
 
 export default function WindStatusCard({ windSpeed, windDeg }) {
   const speed = windSpeed ?? 0
@@ -23,15 +24,17 @@ export default function WindStatusCard({ windSpeed, windDeg }) {
             <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>km/h</span>
           </div>
         </div>
-        <div style={{
-          width: 38, height: 38, borderRadius: 10,
-          background: 'rgba(62, 205, 224, 0.12)',
-          border: '1px solid rgba(62, 205, 224, 0.2)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'var(--accent-cyan)',
-        }}>
-          <RiWindyLine size={18} />
-        </div>
+        <InfoTooltip text="Wind Status shows the current wind speed and direction. Higher wind can make air feel cooler and may affect comfort outdoors.">
+          <div style={{
+            width: 38, height: 38, borderRadius: 10,
+            background: 'rgba(62, 205, 224, 0.12)',
+            border: '1px solid rgba(62, 205, 224, 0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--accent-cyan)',
+          }}>
+            <RiWindyLine size={18} />
+          </div>
+        </InfoTooltip>
       </div>
 
       {/* Wind area chart */}
