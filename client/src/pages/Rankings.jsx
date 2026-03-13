@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRankings } from '../hooks/useWeather'
+import { useTheme } from '../hooks/useTheme'
 import { getComfortLabel, getWeatherIcon } from '../utils/weatherHelpers'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
 import { RiRefreshLine, RiArrowUpLine, RiArrowDownLine } from 'react-icons/ri'
@@ -98,9 +99,13 @@ function RankingCard({ rank, city, weather, temperature, score }) {
 }
 
 export default function Rankings() {
+  const { isDark } = useTheme()
   const { data, cacheStatus, loading, error, refetch } = useRankings()
   const [sortKey, setSortKey] = useState('score')
   const [sortDir, setSortDir] = useState('desc')
+  const cacheHitBg = isDark ? 'rgba(74,222,128,0.1)' : 'rgba(22,163,74,0.14)'
+  const cacheHitBorder = isDark ? 'rgba(74,222,128,0.25)' : 'rgba(21,128,61,0.3)'
+  const cacheHitColor = isDark ? '#4ADE80' : '#166534'
 
   const toggleSort = (key) => {
     if (sortKey === key) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
@@ -151,9 +156,9 @@ export default function Rankings() {
           {cacheStatus && (
             <span style={{
               fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 20,
-              background: cacheStatus === 'HIT' ? 'rgba(74,222,128,0.1)' : 'rgba(255,200,45,0.1)',
-              color: cacheStatus === 'HIT' ? '#4ADE80' : 'var(--accent-yellow)',
-              border: `1px solid ${cacheStatus === 'HIT' ? 'rgba(74,222,128,0.25)' : 'rgba(255,200,45,0.25)'}`,
+              background: cacheStatus === 'HIT' ? cacheHitBg : 'rgba(255,200,45,0.1)',
+              color: cacheStatus === 'HIT' ? cacheHitColor : 'var(--accent-yellow)',
+              border: `1px solid ${cacheStatus === 'HIT' ? cacheHitBorder : 'rgba(255,200,45,0.25)'}`,
             }}>
               Cache: {cacheStatus}
             </span>

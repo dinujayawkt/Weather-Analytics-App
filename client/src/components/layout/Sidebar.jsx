@@ -1,10 +1,9 @@
 import { createElement, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useTheme } from '../../hooks/useTheme'
 import {
   RiDashboardLine, RiBarChartLine, RiTrophyLine, RiSettings3Line,
-  RiSunLine, RiMoonLine, RiLogoutBoxLine,
+  RiLogoutBoxLine,
 } from 'react-icons/ri'
 
 const navItems = [
@@ -16,7 +15,6 @@ const navItems = [
 
 export default function Sidebar({ mobileOpen, onClose }) {
   const { user, logout } = useAuth0()
-  const { isDark, toggleTheme } = useTheme()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const profileMenuRef = useRef(null)
 
@@ -88,8 +86,8 @@ export default function Sidebar({ mobileOpen, onClose }) {
   }
 
   const applyMenuHover = (target) => {
-    target.style.background = 'rgba(255,255,255,0.12)'
-    target.style.borderColor = 'rgba(255,255,255,0.24)'
+    target.style.background = 'var(--menu-hover-bg)'
+    target.style.borderColor = 'var(--menu-hover-border)'
     target.style.backdropFilter = 'blur(8px)'
   }
 
@@ -179,24 +177,8 @@ export default function Sidebar({ mobileOpen, onClose }) {
           ))}
         </nav>
 
-        {/* Bottom: Theme toggle + avatar */}
+        {/* Bottom: avatar */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 12, borderTop: '1px solid var(--border-color)', width: '100%', paddingInline: 12, position: 'relative' }}>
-          {/* Theme toggle (replaces notification bell from the design) */}
-          <button
-            onClick={toggleTheme}
-            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: isDark ? 'rgba(255,200,45,0.1)' : 'rgba(29,111,242,0.1)',
-              border: `1px solid ${isDark ? 'rgba(255,200,45,0.25)' : 'rgba(29,111,242,0.25)'}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', transition: 'all 0.2s ease',
-              color: isDark ? 'var(--accent-yellow)' : 'var(--accent-blue)',
-            }}
-          >
-            {isDark ? <RiSunLine size={20} /> : <RiMoonLine size={20} />}
-          </button>
-
           <div ref={profileMenuRef} style={{ position: 'relative' }}>
             <button
               onClick={() => setProfileMenuOpen(v => !v)}

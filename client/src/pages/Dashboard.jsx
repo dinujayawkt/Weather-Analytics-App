@@ -8,6 +8,8 @@ import HighlightCard from '../components/weather/HighlightCard'
 import CityOverviewCard from '../components/weather/CityOverviewCard'
 import ComfortScoreGauge from '../components/weather/ComfortScoreGauge'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
+import InfoTooltip from '../components/ui/InfoTooltip'
+import { useTheme } from '../hooks/useTheme'
 import {
   RiDropLine, RiEyeLine, RiTempHotLine, RiDashboardLine,
 } from 'react-icons/ri'
@@ -20,6 +22,7 @@ const CITIES = [
 ]
 
 export default function Dashboard() {
+  const { isDark } = useTheme()
   const [selectedCityId, setSelectedCityId] = useState(CITIES[0].id)
   const { data: cityData, loading: cityLoading } = useCityWeather(selectedCityId)
   const { data: rankings, loading: rankLoading, cacheStatus } = useRankings()
@@ -29,6 +32,9 @@ export default function Dashboard() {
   )
 
   const isLoading = cityLoading || rankLoading
+  const cacheHitBg = isDark ? 'rgba(74,222,128,0.1)' : 'rgba(22,163,74,0.14)'
+  const cacheHitBorder = isDark ? 'rgba(74,222,128,0.25)' : 'rgba(21,128,61,0.3)'
+  const cacheHitColor = isDark ? '#4ADE80' : '#166534'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, animation: 'fadeSlideUp 0.4s ease' }}>
@@ -36,10 +42,10 @@ export default function Dashboard() {
       {cacheStatus && (
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
-          padding: '6px 14px', background: cacheStatus === 'HIT' ? 'rgba(74,222,128,0.1)' : 'rgba(255,200,45,0.1)',
-          border: `1px solid ${cacheStatus === 'HIT' ? 'rgba(74,222,128,0.25)' : 'rgba(255,200,45,0.25)'}`,
+          padding: '6px 14px', background: cacheStatus === 'HIT' ? cacheHitBg : 'rgba(255,200,45,0.1)',
+          border: `1px solid ${cacheStatus === 'HIT' ? cacheHitBorder : 'rgba(255,200,45,0.25)'}`,
           borderRadius: 20, fontSize: 11, fontWeight: 600, alignSelf: 'flex-start',
-          color: cacheStatus === 'HIT' ? '#4ADE80' : 'var(--accent-yellow)',
+          color: cacheStatus === 'HIT' ? cacheHitColor : 'var(--accent-yellow)',
         }}>
           <RiDashboardLine size={12} />
           Cache: {cacheStatus}
@@ -74,7 +80,7 @@ export default function Dashboard() {
           </div>
 
           {/* RIGHT PANEL */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16,marginTop: -38 }}>
             {/* Today's Highlights header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -86,7 +92,7 @@ export default function Dashboard() {
             </div>
 
             {/* Highlight cards grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'auto auto auto', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'auto auto auto', gap: 15 }}>
               {/* Wind status — spans row */}
               <div style={{ gridColumn: '1 / 2' }}>
                 <WindStatusCard
@@ -116,6 +122,7 @@ export default function Dashboard() {
                 icon={RiDropLine}
                 color="#3ECDE0"
                 progress={cityData?.humidity}
+                description="Humidity is the amount of water vapor in the air. Higher humidity can make temperatures feel warmer and less comfortable."
                 note={cityData?.humidity >= 60 ? 'High humidity' : 'Comfortable level'}
               />
 
@@ -127,6 +134,7 @@ export default function Dashboard() {
                 icon={RiEyeLine}
                 color="#1D6FF2"
                 progress={cityData?.visibility ? Math.min(100, (cityData.visibility / 10000) * 100) : 0}
+                description="Visibility indicates how far you can clearly see. Low visibility can come from fog, haze, rain, or heavy particles in the air."
                 note={cityData?.visibility < 3000 ? 'Haze is affecting visibility' : 'Clear visibility'}
               />
 
@@ -138,6 +146,7 @@ export default function Dashboard() {
                   unit="°C"
                   icon={RiTempHotLine}
                   color="#FF8157"
+                  description="Feels Like is the perceived temperature after combining air temperature with humidity and wind effects."
                   note="Accounts for humidity & wind chill"
                 />
               </div>
@@ -176,9 +185,12 @@ export default function Dashboard() {
 
           {/* Pressure + cloudiness info */}
           <div className="glass-card" style={{ padding: 20 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 14 }}>
-              Current Conditions
-            </h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>
+                Current Conditions
+              </h3>
+              <InfoTooltip text="Cloudiness is the percentage of sky covered by clouds. It affects sunlight, UV levels, and overall outdoor comfort." />
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
                 { label: 'Pressure', value: `${cityData?.pressure ?? '--'} hPa`, progress: cityData?.pressure ? (cityData.pressure / 1050) * 100 : 0, color: '#FFC82D' },
