@@ -3,17 +3,17 @@
 Climatrix is a full-stack weather analytics platform with a React frontend and Node.js backend.  
 It provides real-time weather insights, city comfort rankings, and a modern authenticated dashboard experience.
 
-## Live Demo
+## Live Demo 🔗
 
-- Vercel Deployment: https://climatrix-analytics.vercel.app
+- Vercel Deployment : https://climatrix-analytics.vercel.app
 
-## Project Overview
+## Project Overview 🗂️
 
 - **Frontend (`client/`)**: React + Vite dashboard UI, Auth0 login, analytics widgets, rankings, and settings.
 - **Backend (`server/`)**: Express API, OpenWeatherMap integration, comfort score calculation, and in-memory caching.
 - **Branding**: `RiCloudLine` is used as the Climatrix logo (login + app shell) and is clickable to navigate home.
 
-## Monorepo Structure
+## Monorepo Structure 📚
 
 ```text
 client/
@@ -30,7 +30,7 @@ server/
   data/
 ```
 
-## Features
+## Features ⚙️
 
 ### Frontend
 - Auth0-based login flow and protected routes
@@ -47,7 +47,7 @@ server/
 - Comfort score calculation and sorted ranking
 - Cache responses with 5-minute TTL (`node-cache`)
 
-## Tech Stack
+## Tech Stack 🛠️
 
 - **Client**: React 19, Vite, React Router, Axios, Recharts, React Icons, Auth0 React SDK, TailwindCSS
 - **Server**: Node.js, Express, Axios, CORS, dotenv, node-cache
@@ -68,7 +68,7 @@ OPENWEATHER_API_KEY=your-openweather-api-key
 PORT=5000
 ```
 
-## Local Development
+## Local Development 🔧
 
 ### 1) Install dependencies
 
@@ -97,7 +97,7 @@ npm run dev
 Frontend default: `http://localhost:5173`  
 Backend default: `http://localhost:5000`
 
-## Available Scripts
+## Available Scripts 🧑‍💻
 
 ### Client
 - `npm run dev` - start Vite dev server
@@ -109,7 +109,7 @@ Backend default: `http://localhost:5000`
 - `npm run dev` - start server with nodemon
 - `npm run start` - start server with node
 
-## Comfort Index Logic
+## Comfort Index Logic 📝
 
 The backend computes the comfort index from temperature, humidity, and wind speed:
 
