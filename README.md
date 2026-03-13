@@ -1,4 +1,4 @@
-# Climatrix - Weather Analytics Application
+# Climatrix - Weather Analytics Application  🌦️🌡️
 
 Climatrix is a full-stack weather analytics platform with a React frontend and Node.js backend.  
 It provides real-time weather insights, city comfort rankings, and a modern authenticated dashboard experience.
