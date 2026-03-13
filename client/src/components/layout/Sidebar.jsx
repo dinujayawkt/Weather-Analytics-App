@@ -1,4 +1,4 @@
-import { createElement } from 'react'
+import { createElement, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useTheme } from '../../hooks/useTheme'
@@ -17,9 +17,45 @@ const navItems = [
 export default function Sidebar({ mobileOpen, onClose }) {
   const { user, logout } = useAuth0()
   const { isDark, toggleTheme } = useTheme()
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
+  const profileMenuRef = useRef(null)
 
   const handleLogout = () =>
     logout({ logoutParams: { returnTo: window.location.origin + '/login' } })
+
+  useEffect(() => {
+    if (!profileMenuOpen) return
+
+    const handleClickOutside = (event) => {
+      if (!profileMenuRef.current?.contains(event.target)) {
+        setProfileMenuOpen(false)
+      }
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setProfileMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [profileMenuOpen])
+
+  const handleSettingsClick = () => {
+    setProfileMenuOpen(false)
+    onClose?.()
+  }
+
+  const handleLogoutClick = () => {
+    setProfileMenuOpen(false)
+    handleLogout()
+  }
 
   const sidebarStyle = {
     width: 68,
@@ -34,6 +70,33 @@ export default function Sidebar({ mobileOpen, onClose }) {
     position: 'relative',
     zIndex: 50,
     transition: 'transform 0.3s ease',
+  }
+
+  const menuItemStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: 8,
+    padding: '8px 10px',
+    color: 'var(--text-primary)',
+    background: 'transparent',
+    border: '1px solid transparent',
+    textDecoration: 'none',
+    fontSize: 13,
+    fontWeight: 500,
+    transition: 'all 0.2s ease',
+  }
+
+  const applyMenuHover = (target) => {
+    target.style.background = 'rgba(255,255,255,0.12)'
+    target.style.borderColor = 'rgba(255,255,255,0.24)'
+    target.style.backdropFilter = 'blur(8px)'
+  }
+
+  const clearMenuHover = (target) => {
+    target.style.background = 'transparent'
+    target.style.borderColor = 'transparent'
+    target.style.backdropFilter = 'none'
   }
 
   return (
@@ -117,7 +180,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
         </nav>
 
         {/* Bottom: Theme toggle + avatar */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 12, borderTop: '1px solid var(--border-color)', width: '100%', paddingInline: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 12, borderTop: '1px solid var(--border-color)', width: '100%', paddingInline: 12, position: 'relative' }}>
           {/* Theme toggle (replaces notification bell from the design) */}
           <button
             onClick={toggleTheme}
@@ -134,55 +197,101 @@ export default function Sidebar({ mobileOpen, onClose }) {
             {isDark ? <RiSunLine size={20} /> : <RiMoonLine size={20} />}
           </button>
 
-          {/* User avatar */}
-          {user?.picture ? (
-            <img
-              src={user.picture}
-              alt={user.name}
-              title={user.name}
+          <div ref={profileMenuRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setProfileMenuOpen(v => !v)}
+              title={user?.name || 'Profile'}
               style={{
-                width: 38, height: 38, borderRadius: '50%',
-                border: '2px solid var(--border-color)', objectFit: 'cover',
-                cursor: 'default',
-              }}
-            />
-          ) : (
-            <div
-              title={user?.name}
-              style={{
-                width: 38, height: 38, borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--accent-coral), var(--accent-yellow))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14, fontWeight: 700, color: 'white', cursor: 'default',
+                width: 44,
+                height: 44,
+                borderRadius: '50%',
+                background: 'transparent',
+                border: `2px solid ${profileMenuOpen ? 'var(--accent-blue)' : 'var(--border-color)'}`,
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                overflow: 'hidden',
+                transition: 'all 0.2s ease',
               }}
             >
-              {user?.name?.[0]?.toUpperCase() || '?'}
-            </div>
-          )}
+              {user?.picture ? (
+                <img
+                  src={user.picture}
+                  alt={user.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(135deg, var(--accent-coral), var(--accent-yellow))',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: 'white',
+                  }}
+                >
+                  {user?.name?.[0]?.toUpperCase() || '?'}
+                </div>
+              )}
+            </button>
 
-          {/* Logout button */}
-          <button
-            onClick={handleLogout}
-            title="Sign Out"
-            style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: 'rgba(239,68,68,0.08)',
-              border: '1px solid rgba(239,68,68,0.2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', transition: 'all 0.2s ease',
-              color: '#EF4444',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(239,68,68,0.18)'
-              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.4)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(239,68,68,0.08)'
-              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.2)'
-            }}
-          >
-            <RiLogoutBoxLine size={20} />
-          </button>
+            {profileMenuOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: 52,
+                  bottom: 0,
+                  width: 150,
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 12,
+                  padding: 6,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
+                  zIndex: 70,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4,
+                }}
+              >
+                <NavLink
+                  to="/settings"
+                  onClick={handleSettingsClick}
+                  onMouseEnter={e => applyMenuHover(e.currentTarget)}
+                  onMouseLeave={e => clearMenuHover(e.currentTarget)}
+                  style={{
+                    ...menuItemStyle,
+                  }}
+                >
+                  <RiSettings3Line size={16} />
+                  Settings
+                </NavLink>
+
+                <button
+                  onClick={handleLogoutClick}
+                  onMouseEnter={e => applyMenuHover(e.currentTarget)}
+                  onMouseLeave={e => clearMenuHover(e.currentTarget)}
+                  style={{
+                    ...menuItemStyle,
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <RiLogoutBoxLine size={16} />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </aside>
     </>
