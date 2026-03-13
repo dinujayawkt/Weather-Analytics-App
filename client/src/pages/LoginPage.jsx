@@ -86,7 +86,7 @@ export default function LoginPage() {
               color: isDark ? 'white' : '#0F1117',
               letterSpacing: -1, marginBottom: 6,
             }}>
-              Weathery
+              Climatrix
             </h1>
             <p style={{ fontSize: 14, color: isDark ? '#8B9AB0' : '#4A5568', lineHeight: 1.5 }}>
               Your intelligent weather analytics platform
@@ -150,7 +150,7 @@ export default function LoginPage() {
           textAlign: 'center', marginTop: 20,
           fontSize: 11, color: isDark ? '#2D3748' : '#9CA3AF',
         }}>
-          Weathery © {new Date().getFullYear()} &mdash; Weather Analytics Platform
+          Climatrix © {new Date().getFullYear()} &mdash; Weather Analytics Platform
         </p>
       </div>
     </div>

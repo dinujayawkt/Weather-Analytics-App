@@ -17,7 +17,7 @@ export default function TopBar({ onMenuToggle }) {
   const { isDark, toggleTheme } = useTheme()
   const [searchVal, setSearchVal] = useState('')
 
-  const title = pageTitles[pathname] ?? 'Weathery'
+  const title = pageTitles[pathname] ?? 'Climatrix'
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
   })

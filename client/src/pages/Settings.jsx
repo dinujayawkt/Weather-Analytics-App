@@ -152,7 +152,7 @@ export default function Settings() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <RiInformationLine size={16} style={{ color: 'var(--accent-blue)' }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Weathery — Weather Analytics App</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Climatrix — Weather Analytics Application</span>
           </div>
           {[
             ['Version', '1.0.0'],
