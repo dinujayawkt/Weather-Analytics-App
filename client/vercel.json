@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://weather-analytics-app-5rx4.vercel.app/api/:path*"
+    }
+  ]
+}
