@@ -11,8 +11,8 @@ export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
   const progress = dayDuration > 0 ? elapsed / dayDuration : 0
 
   // Arc geometry
-  const W = 200, H = 90, r = 78
-  const cx = W / 2, cy = H + 10
+  const W = 280, H = 108, r = 96
+  const cx = W / 2, cy = H  // endpoints sit at the very bottom of the viewBox
   const startAngle = Math.PI
   const endAngle = 2 * Math.PI
   const sunAngle = startAngle + progress * Math.PI
@@ -32,8 +32,8 @@ export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
       <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>Sunrise &amp; Sunset</p>
 
       {/* SVG arc */}
-      <div style={{ display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
-        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <div style={{ display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ maxWidth: 360, display: 'block' }}>
           {/* Track arc */}
           <path
             d={`M ${trackStart.x} ${trackStart.y} A ${r} ${r} 0 0 1 ${trackEnd.x} ${trackEnd.y}`}

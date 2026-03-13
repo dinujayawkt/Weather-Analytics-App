@@ -1,6 +1,6 @@
 import { getComfortLabel, getWeatherIcon } from '../../utils/weatherHelpers'
 
-export default function CityOverviewCard({ rank, city, weather, temperature, score, isTop }) {
+export default function CityOverviewCard({ rank, city, weather, temperature, score, isTop, onSelect, isSelected }) {
   const { label, color } = getComfortLabel(score)
   const icon = getWeatherIcon('', weather)
 
@@ -10,16 +10,24 @@ export default function CityOverviewCard({ rank, city, weather, temperature, sco
   return (
     <div
       className="glass-card"
+      onClick={onSelect}
       style={{
         padding: '14px 18px',
         display: 'flex',
         alignItems: 'center',
         gap: 14,
-        transition: 'background 0.2s',
-        cursor: 'default',
-        background: isTop ? 'rgba(29,111,242,0.06)' : undefined,
-        borderColor: isTop ? 'rgba(29,111,242,0.2)' : undefined,
+        transition: 'background 0.2s, border-color 0.2s, transform 0.15s',
+        cursor: onSelect ? 'pointer' : 'default',
+        background: isSelected
+          ? 'rgba(29,111,242,0.12)'
+          : isTop ? 'rgba(29,111,242,0.06)' : undefined,
+        borderColor: isSelected
+          ? 'rgba(29,111,242,0.45)'
+          : isTop ? 'rgba(29,111,242,0.2)' : undefined,
+        outline: isSelected ? '1.5px solid rgba(29,111,242,0.35)' : 'none',
       }}
+      onMouseEnter={e => { if (onSelect) e.currentTarget.style.transform = 'translateY(-1px)' }}
+      onMouseLeave={e => { if (onSelect) e.currentTarget.style.transform = 'none' }}
     >
       {/* Rank */}
       <div style={{
