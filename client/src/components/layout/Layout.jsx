@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
+import { SearchProvider } from '../../context/SearchContext.jsx'
 
 export default function Layout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
+    <SearchProvider>
     <div style={{
       display: 'flex',
       height: '100vh',
@@ -38,5 +40,6 @@ export default function Layout({ children }) {
         </main>
       </div>
     </div>
+    </SearchProvider>
   )
 }

@@ -1,8 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
-import { RiSearchLine, RiMenuLine, RiSunLine, RiMoonLine } from 'react-icons/ri'
+import { RiSearchLine, RiMenuLine, RiSunLine, RiMoonLine, RiMapPin2Line } from 'react-icons/ri'
 import { useTheme } from '../../hooks/useTheme'
+import { useSearch } from '../../context/SearchContext.jsx'
+
+const CITIES = [
+  { id: 1248991, name: 'Colombo' },
+  { id: 1850147, name: 'Tokyo' },
+  { id: 2643743, name: 'London' },
+]
 
 const pageTitles = {
   '/':           'Dashboard',
@@ -15,7 +22,34 @@ export default function TopBar({ onMenuToggle }) {
   const { pathname } = useLocation()
   const { user } = useAuth0()
   const { isDark, toggleTheme } = useTheme()
-  const [searchVal, setSearchVal] = useState('')
+  const { searchQuery, setSearchQuery, submitSearch } = useSearch()
+
+  const [popup, setPopup] = useState({ visible: false, matched: null, query: '' })
+  const popupTimerRef = useRef(null)
+
+  // Clear search input + submitted filter when navigating
+  useEffect(() => {
+    setSearchQuery('')
+    submitSearch('')
+    setPopup({ visible: false, matched: null, query: '' })
+  }, [pathname])
+
+  const handleKeyDown = (e) => {
+    if (e.key !== 'Enter') return
+    const q = searchQuery.trim()
+    if (!q) return
+
+    const matched = CITIES.find(c => c.name.toLowerCase() === q.toLowerCase()) ?? null
+    submitSearch(matched ? matched.name : '')
+
+    if (popupTimerRef.current) clearTimeout(popupTimerRef.current)
+    setPopup({ visible: true, matched, query: q })
+    popupTimerRef.current = setTimeout(
+      () => setPopup(p => ({ ...p, visible: false })),
+      2500,
+    )
+    setSearchQuery('')
+  }
 
   const title = pageTitles[pathname] ?? 'Climatrix'
   const today = new Date().toLocaleDateString('en-US', {
@@ -62,24 +96,56 @@ export default function TopBar({ onMenuToggle }) {
       </div>
 
       {/* Search bar */}
-      <div
-        className="topbar-search"
-        style={{
-        display: 'flex', alignItems: 'center', gap: 8,
-        background: searchBg, border: `1px solid ${searchBorder}`,
-        borderRadius: 10, padding: '7px 14px', minWidth: 200,
-      }}
-      >
-        <RiSearchLine size={15} style={{ color: topTextSecondary, flexShrink: 0 }} />
-        <input
-          value={searchVal}
-          onChange={e => setSearchVal(e.target.value)}
-          placeholder="Search cities…"
+      <div style={{ position: 'relative' }}>
+        <div
+          className="topbar-search"
           style={{
-            background: 'none', border: 'none', outline: 'none',
-            color: topTextPrimary, fontSize: 13, width: '100%',
-          }}
-        />
+          display: 'flex', alignItems: 'center', gap: 8,
+          background: searchBg, border: `1px solid ${searchBorder}`,
+          borderRadius: 10, padding: '7px 14px', minWidth: 200,
+        }}
+        >
+          <RiSearchLine size={15} style={{ color: topTextSecondary, flexShrink: 0 }} />
+          <input
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Search Cities…"
+            style={{
+              background: 'none', border: 'none', outline: 'none',
+              color: topTextPrimary, fontSize: 13, width: '100%',
+            }}
+          />
+        </div>
+
+        {/* Result popup */}
+        {popup.visible && (
+          <div style={{
+            position: 'absolute',
+            top: 'calc(100% + 8px)',
+            right: 0,
+            minWidth: '100%',
+            background: isDark ? '#1e2535' : '#ffffff',
+            border: `1px solid ${popup.matched ? 'rgba(74,222,128,0.45)' : 'var(--border-color)'}`,
+            borderRadius: 10,
+            padding: '10px 14px',
+            boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
+            zIndex: 200,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            whiteSpace: 'nowrap',
+            color: popup.matched ? '#4ADE80' : 'var(--text-secondary)',
+            animation: 'fadeSlideUp 0.2s ease',
+          }}>
+            {popup.matched
+              ? <><RiMapPin2Line size={14} style={{ flexShrink: 0 }} />{popup.matched.name}</>
+              : <>No results for &quot;{popup.query}&quot;</>
+            }
+          </div>
+        )}
       </div>
 
       {/* Theme toggle */}

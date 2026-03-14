@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRankings } from '../hooks/useWeather'
 import { useTheme } from '../hooks/useTheme'
+import { useSearch } from '../context/SearchContext.jsx'
 import { getComfortLabel, getWeatherIcon } from '../utils/weatherHelpers'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
 import { RiRefreshLine, RiArrowUpLine, RiArrowDownLine } from 'react-icons/ri'
@@ -101,6 +102,7 @@ function RankingCard({ rank, city, weather, temperature, score }) {
 export default function Rankings() {
   const { isDark } = useTheme()
   const { data, cacheStatus, loading, error, refetch } = useRankings()
+  const { submittedQuery } = useSearch()
   const [sortKey, setSortKey] = useState('score')
   const [sortDir, setSortDir] = useState('desc')
   const cacheHitBg = isDark ? 'rgba(74,222,128,0.1)' : 'rgba(22,163,74,0.14)'
@@ -113,10 +115,12 @@ export default function Rankings() {
   }
 
   const sorted = data
-    ? [...data].sort((a, b) => {
-        const mult = sortDir === 'desc' ? -1 : 1
-        return mult * (a[sortKey] - b[sortKey])
-      })
+    ? [...data]
+        .filter(r => !submittedQuery || r.city.toLowerCase() === submittedQuery.toLowerCase())
+        .sort((a, b) => {
+          const mult = sortDir === 'desc' ? -1 : 1
+          return mult * (a[sortKey] - b[sortKey])
+        })
     : []
 
   // Reassign rank based on score (original API order is score-sorted)

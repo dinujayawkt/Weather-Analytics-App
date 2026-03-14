@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRankings, useCityWeather } from '../hooks/useWeather'
 import CurrentWeatherCard from '../components/weather/CurrentWeatherCard'
 import WindStatusCard from '../components/weather/WindStatusCard'
@@ -10,6 +10,7 @@ import ComfortScoreGauge from '../components/weather/ComfortScoreGauge'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
 import InfoTooltip from '../components/ui/InfoTooltip'
 import { useTheme } from '../hooks/useTheme'
+import { useSearch } from '../context/SearchContext.jsx'
 import {
   RiDropLine, RiEyeLine, RiTempHotLine, RiDashboardLine,
 } from 'react-icons/ri'
@@ -23,7 +24,17 @@ const CITIES = [
 
 export default function Dashboard() {
   const { isDark } = useTheme()
+  const { submittedQuery } = useSearch()
   const [selectedCityId, setSelectedCityId] = useState(CITIES[0].id)
+
+  // Switch city when a city name is submitted via search
+  useEffect(() => {
+    if (!submittedQuery.trim()) return
+    const match = CITIES.find(c =>
+      c.name.toLowerCase() === submittedQuery.toLowerCase()
+    )
+    if (match) setSelectedCityId(match.id)
+  }, [submittedQuery])
   const { data: cityData, loading: cityLoading } = useCityWeather(selectedCityId)
   const { data: rankings, loading: rankLoading, cacheStatus } = useRankings()
 
