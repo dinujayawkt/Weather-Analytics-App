@@ -3,7 +3,7 @@ import { RiSunLine } from 'react-icons/ri'
 import InfoTooltip from '../ui/InfoTooltip'
 
 function UVGauge({ value, max = 12 }) {
-  const pct = Math.min(value / max, 1)
+  const pct = Math.max(0, Math.min(value / max, 1))
   const cx = 100, cy = 88, r = 72
   const startAngle = Math.PI
   const sweepAngle = Math.PI
@@ -33,7 +33,7 @@ function UVGauge({ value, max = 12 }) {
       {/* Fill */}
       {value > 0 && (
         <path
-          d={`M ${start.x} ${start.y} A ${r} ${r} 0 ${pct > 0.5 ? 1 : 0} 1 ${end.x} ${end.y}`}
+          d={`M ${start.x} ${start.y} A ${r} ${r} 0 0 1 ${end.x} ${end.y}`}
           fill="none" stroke={uvColor} strokeWidth={10} strokeLinecap="round"
         />
       )}
@@ -45,8 +45,14 @@ function UVGauge({ value, max = 12 }) {
   )
 }
 
-export default function UVIndexCard({ cloudiness }) {
-  const uvIndex = estimateUVIndex(cloudiness ?? 0)
+export default function UVIndexCard({ cloudiness, currentTime, sunrise, sunset, timezoneOffset }) {
+  const uvIndex = estimateUVIndex({
+    cloudiness,
+    currentTime,
+    sunrise,
+    sunset,
+    timezoneOffset,
+  })
   const label =
     uvIndex <= 2 ? 'Low'
     : uvIndex <= 5 ? 'Moderate'
@@ -84,7 +90,7 @@ export default function UVIndexCard({ cloudiness }) {
           {label}
         </span>
         <p style={{ fontSize: 10, color: 'var(--text-secondary)', marginTop: 4 }}>
-          Est. from cloud cover
+          Est. from local daylight & cloud cover
         </p>
       </div>
     </div>

@@ -48,10 +48,26 @@ export function getComfortLabel(score) {
   return               { label: 'Poor',           color: '#F87171' }
 }
 
-export function estimateUVIndex(cloudiness) {
-  const hour = new Date().getUTCHours()
-  const solarFactor = Math.max(0, Math.cos(((hour - 12) / 12) * Math.PI))
-  const cloudFactor = 1 - (cloudiness * 0.75 / 100)
+export function estimateUVIndex({ cloudiness = 0, currentTime, sunrise, sunset, timezoneOffset = 0 } = {}) {
+  if (!currentTime || !sunrise || !sunset) {
+    return 0
+  }
+
+  const localNow = currentTime + timezoneOffset
+  const localSunrise = sunrise + timezoneOffset
+  const localSunset = sunset + timezoneOffset
+
+  if (localNow <= localSunrise || localNow >= localSunset) {
+    return 0
+  }
+
+  const daylightSpan = Math.max(localSunset - localSunrise, 1)
+  const solarNoon = localSunrise + daylightSpan / 2
+  const halfDaylight = daylightSpan / 2
+  const solarDistance = Math.abs(localNow - solarNoon)
+  const solarFactor = Math.max(0, 1 - solarDistance / halfDaylight)
+  const cloudFactor = Math.max(0.15, 1 - (cloudiness * 0.75 / 100))
+
   return +(12 * solarFactor * cloudFactor).toFixed(1)
 }
 

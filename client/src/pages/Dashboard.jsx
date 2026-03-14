@@ -80,7 +80,7 @@ export default function Dashboard() {
           </div>
 
           {/* RIGHT PANEL */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16,marginTop: -38 }}>
+          <div className="dashboard-right-panel" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: -38 }}>
             {/* Today's Highlights header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -92,7 +92,7 @@ export default function Dashboard() {
             </div>
 
             {/* Highlight cards grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'auto auto auto', gap: 15 }}>
+            <div className="dashboard-highlights-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'auto auto auto', gap: 15 }}>
               {/* Wind status — spans row */}
               <div style={{ gridColumn: '1 / 2' }}>
                 <WindStatusCard
@@ -102,7 +102,13 @@ export default function Dashboard() {
               </div>
               {/* UV Index */}
               <div>
-                <UVIndexCard cloudiness={cityData?.cloudiness} />
+                <UVIndexCard
+                  cloudiness={cityData?.cloudiness}
+                  currentTime={cityData?.current_time}
+                  sunrise={cityData?.sunrise}
+                  sunset={cityData?.sunset}
+                  timezoneOffset={cityData?.timezone_offset}
+                />
               </div>
 
               {/* Sunrise & Sunset — full width */}
@@ -157,7 +163,7 @@ export default function Dashboard() {
 
       {/* Bottom section */}
       {!isLoading && rankings && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        <div className="dashboard-bottom-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
           {/* Cities overview */}
           <div className="glass-card" style={{ padding: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 14 }}>
@@ -237,6 +243,10 @@ export default function Dashboard() {
       <style>{`
         @media (max-width: 768px) {
           .dashboard-grid { grid-template-columns: 1fr !important; }
+          .dashboard-right-panel { margin-top: 0 !important; }
+          .dashboard-highlights-grid { grid-template-columns: 1fr !important; }
+          .dashboard-highlights-grid > div { grid-column: auto !important; }
+          .dashboard-bottom-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

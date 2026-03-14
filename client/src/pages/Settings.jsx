@@ -17,9 +17,9 @@ function SettingRow({ icon: Icon, label, value, action, actionLabel, color = 'va
       }}>
         {createElement(Icon, { size: 16 })}
       </div>
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{label}</p>
-        {value && <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 1 }}>{value}</p>}
+        {value && <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 1, overflowWrap: 'anywhere' }}>{value}</p>}
       </div>
       {action && (
         <button
@@ -54,7 +54,7 @@ export default function Settings() {
       <div className="glass-card" style={{ padding: 28 }}>
         <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 20 }}>Profile</h3>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24 }}>
+        <div className="settings-profile-header" style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24 }}>
           {user?.picture ? (
             <img
               src={user.picture}
@@ -76,11 +76,11 @@ export default function Settings() {
               {user?.name?.[0]?.toUpperCase() || '?'}
             </div>
           )}
-          <div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)' }}>
+          <div className="settings-profile-meta" style={{ minWidth: 0, flex: 1 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', overflowWrap: 'anywhere' }}>
               {user?.name || 'Unknown User'}
             </h2>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 2 }}>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 2, overflowWrap: 'anywhere' }}>
               {user?.email || '—'}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
@@ -152,7 +152,7 @@ export default function Settings() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <RiInformationLine size={16} style={{ color: 'var(--accent-blue)' }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>Climatrix — Weather Analytics Application</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', overflowWrap: 'anywhere' }}>Climatrix — Weather Analytics Application</span>
           </div>
           {[
             ['Version', '1.0.0'],
@@ -161,9 +161,9 @@ export default function Settings() {
             ['Cache TTL', '5 minutes (server-side)'],
             ['Cities Monitored', '3 (Colombo, Tokyo, London)'],
           ].map(([k, v]) => (
-            <div key={k} style={{ display: 'flex', gap: 8 }}>
-              <span style={{ fontSize: 12, color: 'var(--text-secondary)', minWidth: 140 }}>{k}:</span>
-              <span style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 500 }}>{v}</span>
+            <div key={k} className="settings-about-row" style={{ display: 'flex', gap: 8 }}>
+              <span className="settings-about-label" style={{ fontSize: 12, color: 'var(--text-secondary)', minWidth: 140 }}>{k}:</span>
+              <span className="settings-about-value" style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 500 }}>{v}</span>
             </div>
           ))}
         </div>

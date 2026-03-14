@@ -110,3 +110,82 @@ body {
 /* Score ring */
 .score-ring-track { stroke: var(--border-color); }
 .score-ring-fill  { transition: stroke-dashoffset 1s ease; }
+
+.topbar-search {
+  flex-shrink: 1;
+}
+
+.topbar-search input {
+  min-width: 0;
+}
+
+.settings-about-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    height: auto !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'menu title theme'
+      'search search search';
+    align-items: center !important;
+    column-gap: 12px;
+    row-gap: 12px;
+    padding: 12px 16px !important;
+  }
+
+  .topbar-menu {
+    grid-area: menu;
+  }
+
+  .topbar-title {
+    grid-area: title;
+    min-width: 0;
+  }
+
+  .topbar-title h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .topbar-date {
+    margin-top: 4px !important;
+    line-height: 1.35;
+  }
+
+  .topbar-search {
+    grid-area: search;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .topbar-theme {
+    grid-area: theme;
+    margin: 0 !important;
+    flex-shrink: 0;
+  }
+
+  .app-main {
+    padding: 16px !important;
+  }
+
+  .settings-profile-header {
+    align-items: flex-start !important;
+  }
+
+  .settings-profile-meta {
+    min-width: 0;
+  }
+
+  .settings-about-row {
+    flex-direction: column;
+    gap: 4px !important;
+  }
+
+  .settings-about-label {
+    min-width: 0 !important;
+  }
+}

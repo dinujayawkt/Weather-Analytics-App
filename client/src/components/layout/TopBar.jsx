@@ -28,7 +28,9 @@ export default function TopBar({ onMenuToggle }) {
   const searchBorder = 'var(--border-color)'
 
   return (
-    <header style={{
+    <header
+      className="topbar"
+      style={{
       height: 64,
       display: 'flex',
       alignItems: 'center',
@@ -37,10 +39,11 @@ export default function TopBar({ onMenuToggle }) {
       borderBottom: '1px solid var(--border-color)',
       background: 'var(--sidebar-bg)',
       flexShrink: 0,
-    }}>
+      }}
+    >
       {/* Mobile hamburger */}
       <button
-        className="md:hidden"
+        className="topbar-menu md:hidden"
         onClick={onMenuToggle}
         style={{
           background: 'none', border: 'none', cursor: 'pointer',
@@ -51,20 +54,21 @@ export default function TopBar({ onMenuToggle }) {
       </button>
 
       {/* Page title */}
-      <div style={{ flex: 1 }}>
+      <div className="topbar-title" style={{ flex: 1, minWidth: 0 }}>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: topTextPrimary, lineHeight: 1.2 }}>
           {title}
         </h1>
-        <p style={{ fontSize: 11, color: topTextSecondary, marginTop: 1 }}>{today}</p>
+        <p className="topbar-date" style={{ fontSize: 11, color: topTextSecondary, marginTop: 1 }}>{today}</p>
       </div>
 
       {/* Search bar */}
-      <div style={{
+      <div
+        className="topbar-search"
+        style={{
         display: 'flex', alignItems: 'center', gap: 8,
         background: searchBg, border: `1px solid ${searchBorder}`,
         borderRadius: 10, padding: '7px 14px', minWidth: 200,
       }}
-        className="hidden sm:flex"
       >
         <RiSearchLine size={15} style={{ color: topTextSecondary, flexShrink: 0 }} />
         <input
@@ -80,6 +84,7 @@ export default function TopBar({ onMenuToggle }) {
 
       {/* Theme toggle */}
       <button
+        className="topbar-theme"
         onClick={toggleTheme}
         title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
@@ -103,7 +108,7 @@ export default function TopBar({ onMenuToggle }) {
         {isDark ? <RiSunLine size={20} /> : <RiMoonLine size={20} />}
       </button>
 
-      <div className="hidden sm:block " style={{ textAlign: 'right' }}>
+      <div className="hidden md:block" style={{ textAlign: 'right' }}>
         <p style={{ fontSize: 13, fontWeight: 600, color: topTextPrimary }}>
           Meteorologist
         </p>
