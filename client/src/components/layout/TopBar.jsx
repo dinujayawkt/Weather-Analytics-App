@@ -58,7 +58,7 @@ export default function TopBar({ onMenuToggle }) {
 
   const topTextPrimary = 'var(--text-primary)'
   const topTextSecondary = 'var(--text-secondary)'
-  const searchBg = isDark ? 'var(--bg-card)' : '#FFFFFF'
+  const searchBg = 'var(--bg-card)'
   const searchBorder = 'var(--border-color)'
 
   return (
