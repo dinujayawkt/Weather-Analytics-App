@@ -23,14 +23,17 @@ export default function Layout({ children }) {
       />
 
       {/* Main content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
         <TopBar onMenuToggle={() => setMobileOpen(o => !o)} />
-        <main style={{
+        <main
+          className="app-main"
+          style={{
           flex: 1,
           overflow: 'auto',
           padding: 24,
           background: 'var(--bg-primary)',
-        }}>
+          }}
+        >
           {children}
         </main>
       </div>

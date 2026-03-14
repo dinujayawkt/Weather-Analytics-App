@@ -9,7 +9,7 @@ export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
 
   const dayDuration = ss - sr
   const elapsed = Math.max(0, Math.min(now - sr, dayDuration))
-  const progress = dayDuration > 0 ? elapsed / dayDuration : 0
+  const progress = dayDuration > 0 ? Math.max(0, Math.min(elapsed / dayDuration, 1)) : 0
 
   // Arc geometry
   const W = 280, H = 108, r = 96
@@ -46,7 +46,7 @@ export default function SunriseSunsetCard({ sunrise, sunset, currentTime }) {
           {/* Progress arc */}
           {progress > 0 && (
             <path
-              d={`M ${trackStart.x} ${trackStart.y} A ${r} ${r} 0 ${progress > 0.5 ? 1 : 0} 1 ${progressEnd.x} ${progressEnd.y}`}
+              d={`M ${trackStart.x} ${trackStart.y} A ${r} ${r} 0 0 1 ${progressEnd.x} ${progressEnd.y}`}
               fill="none"
               stroke="url(#sunGrad)"
               strokeWidth={3}
