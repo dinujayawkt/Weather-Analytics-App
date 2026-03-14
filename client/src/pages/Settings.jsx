@@ -192,7 +192,7 @@ export default function Settings() {
           }}
         >
           <RiLogoutBoxLine size={18} />
-          Sign Out
+          Log Out
         </button>
       </div>
     </div>
