@@ -68,7 +68,8 @@ async function getCityWeather(req, res) {
       sunrise: weather.sys.sunrise,
       sunset: weather.sys.sunset,
 
-      current_time: weather.dt
+      current_time: weather.dt,
+      timezone_offset: weather.timezone
     };
 
     res.json(result);

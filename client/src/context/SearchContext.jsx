@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 
 export const SearchContext = createContext({
   searchQuery: '', setSearchQuery: () => {},
@@ -9,7 +9,7 @@ export function SearchProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [submittedQuery, setSubmittedQuery] = useState('')
 
-  const submitSearch = (query) => setSubmittedQuery(query)
+  const submitSearch = useCallback((query) => setSubmittedQuery(query), [])
 
   return (
     <SearchContext.Provider value={{ searchQuery, setSearchQuery, submittedQuery, submitSearch }}>

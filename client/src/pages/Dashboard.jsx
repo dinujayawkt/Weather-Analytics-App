@@ -17,9 +17,18 @@ import {
 
 // City list matches server/data/cities.json
 const CITIES = [
-  { id: 1248991, name: 'Colombo',  country: 'LK' },
-  { id: 1850147, name: 'Tokyo',    country: 'JP' },
-  { id: 2643743, name: 'London',   country: 'GB' },
+  { id: 1248991, name: 'Colombo', country: 'LK' },
+  { id: 1850147, name: 'Tokyo', country: 'JP' },
+  { id: 2643743, name: 'London', country: 'GB' },
+  { id: 5128581, name: 'New York', country: 'US' },
+  { id: 2950159, name: 'Berlin', country: 'DE' },
+  { id: 2147714, name: 'Sydney', country: 'AU' },
+  { id: 1816670, name: 'Beijing', country: 'CN' },
+  { id: 2988507, name: 'Paris', country: 'FR' },
+  { id: 524901, name: 'Moscow', country: 'RU' },
+  { id: 1275339, name: 'Mumbai', country: 'IN' },
+  { id: 1796236, name: 'Shanghai', country: 'CN' },
+  { id: 3448439, name: 'Sao Paulo', country: 'BR' },
 ]
 
 export default function Dashboard() {
