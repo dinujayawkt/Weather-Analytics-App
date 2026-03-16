@@ -44,8 +44,17 @@ export default function Dashboard() {
     )
     if (match) setSelectedCityId(match.id)
   }, [submittedQuery])
-  const { data: cityData, loading: cityLoading } = useCityWeather(selectedCityId)
   const { data: rankings, loading: rankLoading, cacheStatus } = useRankings()
+
+  // Once rankings load, switch to the highest-scoring city
+  useEffect(() => {
+    if (!rankings?.length) return
+    const top = rankings[0]
+    const match = CITIES.find(c => c.name.toLowerCase() === top.city.toLowerCase())
+    if (match) setSelectedCityId(match.id)
+  }, [rankings])
+
+  const { data: cityData, loading: cityLoading } = useCityWeather(selectedCityId)
 
   const scoreData = rankings?.find(r =>
     r.city.toLowerCase() === CITIES.find(c => c.id === selectedCityId)?.name.toLowerCase()
