@@ -183,7 +183,7 @@ export default function Dashboard() {
 
       {/* Bottom section */}
       {!isLoading && rankings && (
-        <div className="dashboard-bottom-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        <div className="dashboard-bottom-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'flex-start' }}>
           {/* Cities overview */}
           <div className="glass-card" style={{ padding: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 14 }}>

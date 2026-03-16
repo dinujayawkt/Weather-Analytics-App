@@ -98,7 +98,7 @@ export default function Analytics() {
       </div>
 
       {/* Charts grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'flex-start' }}>
 
         {/* Comfort Score bar chart */}
         <div className="glass-card" style={{ padding: 20 }}>
@@ -142,25 +142,34 @@ export default function Analytics() {
       </div>
 
       {/* Radar + Score progression */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'flex-start' }}>
         {/* Radar chart */}
         <div className="glass-card" style={{ padding: 20 }}>
           <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
             Multi-Metric Radar
           </h3>
-          <ResponsiveContainer width="100%" height={240}>
-            <RadarChart data={[
-              { metric: 'Score', ...Object.fromEntries(data.map(d => [d.city, d.score])) },
-              { metric: 'Temp Fit', ...Object.fromEntries(data.map(d => [d.city, Math.round(Math.max(0, 100 - Math.abs(d.temperature - 22) * 2))])) },
-            ]}>
-              <PolarGrid stroke="var(--border-color)" />
-              <PolarAngleAxis dataKey="metric" tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
-              {data.map((d, i) => (
-                <Radar key={d.city} name={d.city} dataKey={d.city} stroke={COLORS[i]} fill={COLORS[i]} fillOpacity={0.15} />
-              ))}
-              <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 11 }} />
-            </RadarChart>
+          <ResponsiveContainer width="100%" height={280}>
+            {(() => {
+              const radarCities = data.slice(0, 6)
+              const radarData = [
+                { metric: 'Score',      ...Object.fromEntries(radarCities.map(d => [d.city, d.score])) },
+                { metric: 'Temp Fit',   ...Object.fromEntries(radarCities.map(d => [d.city, Math.max(0, Math.round(100 - Math.abs(d.temperature - 22) * 3))])) },
+                { metric: 'Warmth',     ...Object.fromEntries(radarCities.map(d => [d.city, Math.min(100, Math.max(0, Math.round((d.temperature + 10) / 50 * 100)))])) },
+                { metric: 'Mild',       ...Object.fromEntries(radarCities.map(d => [d.city, Math.max(0, Math.round(100 - Math.abs(d.temperature - 15) * 3))])) },
+                { metric: 'Livability', ...Object.fromEntries(radarCities.map(d => { const tf = Math.max(0, Math.round(100 - Math.abs(d.temperature - 22) * 3)); return [d.city, Math.round((d.score + tf) / 2)] })) },
+              ]
+              return (
+                <RadarChart data={radarData}>
+                  <PolarGrid stroke="var(--border-color)" />
+                  <PolarAngleAxis dataKey="metric" tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
+                  {radarCities.map((d, i) => (
+                    <Radar key={d.city} name={d.city} dataKey={d.city} stroke={COLORS[i]} fill={COLORS[i]} fillOpacity={0.15} />
+                  ))}
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 11 }} />
+                </RadarChart>
+              )
+            })()}
           </ResponsiveContainer>
         </div>
 
