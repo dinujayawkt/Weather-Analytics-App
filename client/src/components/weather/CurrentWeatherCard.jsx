@@ -115,11 +115,16 @@ export default function CurrentWeatherCard({ data, scoreData, selectedCityId, on
               background: 'rgba(15, 23, 42, 0.92)',
               border: '1px solid rgba(255,255,255,0.25)',
               borderRadius: 12,
-              overflow: 'hidden',
+              overflowX: 'hidden',
+              overflowY: 'auto',
+              maxHeight: 240,
+              overscrollBehavior: 'contain',
               boxShadow: '0 10px 26px rgba(0,0,0,0.35)',
               backdropFilter: 'blur(8px)',
               zIndex: 6,
             }}
+            onWheel={(event) => event.stopPropagation()}
+            onTouchMove={(event) => event.stopPropagation()}
           >
             {cities.map((c, index) => (
               <button

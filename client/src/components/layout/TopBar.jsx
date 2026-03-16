@@ -9,6 +9,15 @@ const CITIES = [
   { id: 1248991, name: 'Colombo' },
   { id: 1850147, name: 'Tokyo' },
   { id: 2643743, name: 'London' },
+  { id: 5128581, name: 'New York' },
+  { id: 2950159, name: 'Berlin' },
+  { id: 2147714, name: 'Sydney' },
+  { id: 1816670, name: 'Beijing' },
+  { id: 2988507, name: 'Paris' },
+  { id: 524901, name: 'Moscow' },
+  { id: 1275339, name: 'Mumbai' },
+  { id: 1796236, name: 'Shanghai' },
+  { id: 3448439, name: 'Sao Paulo' },
 ]
 
 const pageTitles = {
@@ -17,6 +26,11 @@ const pageTitles = {
   '/analytics':  'Analytics',
   '/settings':   'Settings',
 }
+
+const normalizeCityText = (value) =>
+  String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
 
 export default function TopBar({ onMenuToggle }) {
   const { pathname } = useLocation()
@@ -32,14 +46,15 @@ export default function TopBar({ onMenuToggle }) {
     setSearchQuery('')
     submitSearch('')
     setPopup({ visible: false, matched: null, query: '' })
-  }, [pathname])
+  }, [pathname, setSearchQuery, submitSearch])
 
   const handleKeyDown = (e) => {
     if (e.key !== 'Enter') return
     const q = searchQuery.trim()
     if (!q) return
 
-    const matched = CITIES.find(c => c.name.toLowerCase() === q.toLowerCase()) ?? null
+    const normalizedQuery = normalizeCityText(q)
+    const matched = CITIES.find(c => normalizeCityText(c.name) === normalizedQuery) ?? null
     submitSearch(matched ? matched.name : '')
 
     if (popupTimerRef.current) clearTimeout(popupTimerRef.current)
@@ -96,7 +111,7 @@ export default function TopBar({ onMenuToggle }) {
       </div>
 
       {/* Search bar */}
-      <div style={{ position: 'relative' }}>
+      <div className="topbar-search-wrap" style={{ position: 'relative' }}>
         <div
           className="topbar-search"
           style={{

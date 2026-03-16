@@ -1,5 +1,14 @@
 [
- { "cityCode": 1248991, "name": "Colombo" },
- { "cityCode": 1850147, "name": "Tokyo" },
- { "cityCode": 2643743, "name": "London" }
+	{ "cityCode": 1248991, "name": "Colombo" },
+	{ "cityCode": 1850147, "name": "Tokyo" },
+	{ "cityCode": 2643743, "name": "London" },
+	{ "cityCode": 5128581, "name": "New York" },
+	{ "cityCode": 2950159, "name": "Berlin" },
+	{ "cityCode": 2147714, "name": "Sydney" },
+	{ "cityCode": 1816670, "name": "Beijing" },
+	{ "cityCode": 2988507, "name": "Paris" },
+	{ "cityCode": 524901, "name": "Moscow" },
+	{ "cityCode": 1275339, "name": "Mumbai" },
+	{ "cityCode": 1796236, "name": "Shanghai" },
+	{ "cityCode": 3448439, "name": "Sao Paulo" }
 ]

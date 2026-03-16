@@ -145,19 +145,30 @@ body {
   .topbar-title {
     grid-area: title;
     min-width: 0;
+    overflow: hidden;
   }
 
   .topbar-title h1 {
-    font-size: 1.4rem !important;
+    font-size: 1.15rem !important;
+    line-height: 1.1;
+    word-break: keep-all;
   }
 
   .topbar-date {
     margin-top: 4px !important;
     line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .topbar-search-wrap {
+    grid-area: search;
+    width: 100%;
+    min-width: 0;
   }
 
   .topbar-search {
-    grid-area: search;
     width: 100%;
     min-width: 0 !important;
   }

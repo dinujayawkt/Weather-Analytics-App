@@ -17,10 +17,10 @@ function RankingCard({ rank, city, weather, temperature, score }) {
     <div
       className="glass-card"
       style={{
-        padding: '20px 24px',
+        padding: '24px 26px',
         display: 'flex',
         flexDirection: 'column',
-        gap: 16,
+        gap: 20,
         transition: 'transform 0.2s, box-shadow 0.2s',
         cursor: 'default',
         borderTop: rank === 1 ? `3px solid ${color}` : undefined,
@@ -49,7 +49,7 @@ function RankingCard({ rank, city, weather, temperature, score }) {
           </div>
           <div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>{city}</h3>
-            <p style={{ fontSize: 12, color: 'var(--text-secondary)', textTransform: 'capitalize', marginTop: 2 }}>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', textTransform: 'capitalize', marginTop: 4 }}>
               {weather}
             </p>
           </div>
@@ -60,15 +60,15 @@ function RankingCard({ rank, city, weather, temperature, score }) {
       </div>
 
       {/* Temperature */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
         <div>
-          <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 2 }}>Temperature</p>
+          <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Temperature</p>
           <p style={{ fontSize: 26, fontWeight: 800, color: 'var(--text-primary)' }}>
             {Math.round(temperature)}°C
           </p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 2 }}>Comfort Score</p>
+          <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Comfort Score</p>
           <p style={{ fontSize: 26, fontWeight: 800, color }}>
             {score}
             <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', marginLeft: 2 }}>/100</span>
@@ -77,11 +77,11 @@ function RankingCard({ rank, city, weather, temperature, score }) {
       </div>
 
       {/* Score bar */}
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>Comfort Index</span>
+      <div style={{ marginTop: 2 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+          <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Comfort Index</span>
           <span style={{
-            fontSize: 11, fontWeight: 600, padding: '1px 8px', borderRadius: 20,
+            fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 20,
             background: `${color}18`, color, border: `1px solid ${color}30`,
           }}>
             {label}
@@ -218,12 +218,15 @@ export default function Rankings() {
           </div>
 
           {/* Cards grid */}
-          <div style={{
+          <div
+            className="rankings-grid"
+            style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: 16,
+            gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+            gap: 30,
             animation: 'fadeSlideUp 0.4s ease',
-          }}>
+          }}
+          >
             {sorted.map((r) => (
               <RankingCard
                 key={r.city}
@@ -235,6 +238,27 @@ export default function Rankings() {
               />
             ))}
           </div>
+
+          <style>{`
+            @media (max-width: 1400px) {
+              .rankings-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+              }
+            }
+
+            @media (max-width: 1100px) {
+              .rankings-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+              }
+            }
+
+            @media (max-width: 768px) {
+              .rankings-grid {
+                grid-template-columns: 1fr !important;
+                gap: 18px !important;
+              }
+            }
+          `}</style>
         </>
       )}
     </div>
